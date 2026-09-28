@@ -7,6 +7,9 @@
   "scripts": {
     "start": "node -r dotenv/config app.js",
     "dev": "nodemon -r dotenv/config app.js",
+    "migrate": "node --experimental-require-module ./node_modules/sequelize-cli/lib/sequelize db:migrate",
+    "migrate:undo": "node --experimental-require-module ./node_modules/sequelize-cli/lib/sequelize db:migrate:undo",
+    "migrate:status": "node --experimental-require-module ./node_modules/sequelize-cli/lib/sequelize db:migrate:status",
     "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --minify",
     "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --watch"
   },
@@ -24,11 +27,11 @@
     "@tailwindcss/cli": "^4.1.18",
     "@tailwindcss/postcss": "^4.0.0",
     "bcrypt": "^6.0.0",
-    "cloudinary": "^1.41.3",
+    "cloudinary": "^2.11.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.7",
     "crypt": "^0.0.2",
-    "csurf": "^1.11.0",
+    "csurf": "^1.2.2",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
@@ -37,17 +40,17 @@
     "hashids": "^2.3.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
-    "multer-storage-cloudinary": "^4.0.0",
+    "multer-storage-cloudinary": "^2.2.1",
     "mysql2": "^3.16.0",
     "nodemon": "^3.1.11",
     "pusher": "^5.3.2",
-    "sequelize": "^6.37.7",
+    "sequelize": "^6.37.8",
     "tailwindcss": "^4.0.0",
     "zod": "^4.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.23",
     "postcss": "^8.5.6",
-    "sequelize-cli": "^6.6.3"
+    "sequelize-cli": "^6.6.5"
   }
 }

@@ -1,0 +1,16 @@
+services:
+  web-app:
+    build: .
+    container_name: auction_app_prod
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    restart: always
+    command: >
+      sh -c "
+        echo '⏳ Running database migrations...' &&
+        npx sequelize-cli db:migrate &&
+        echo '✅ Migrations done! Starting app...' &&
+        npm start
+      "

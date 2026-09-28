@@ -1,7 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import dotenv from 'dotenv';
-dotenv.config();
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const CloudinaryStorage = require('multer-storage-cloudinary');
 
 // 1. Setup Cloudinary Connection
 cloudinary.config({
