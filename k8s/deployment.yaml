@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auction-app
+  namespace: auction-production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auction-app
+  template:
+    metadata:
+      labels:
+        app: auction-app
+    spec:
+      containers:
+        - name: auction-app
+          image: ghcr.io/aiwithuzi/bqicl:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: auction-app-secrets
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

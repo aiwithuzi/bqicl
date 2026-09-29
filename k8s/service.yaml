@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auction-app-service
+  namespace: auction-production
+spec:
+  type: ClusterIP
+  selector:
+    app: auction-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
