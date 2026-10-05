@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t bqicl-web-app:latest .
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Send image to VPS
+        run: |
+          docker save bqicl-web-app:latest | gzip | \
+          ssh -i ~/.ssh/id_deploy ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "gunzip | docker load"
+
+      - name: Restart container
+        run: |
+          ssh -i ~/.ssh/id_deploy ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} '
+            docker rm -f bqicl-app || true
+            docker run -d --name bqicl-app --restart unless-stopped \
+              --env-file ~/.bqicl.env \
+              -p 127.0.0.1:30082:3000 bqicl-web-app:latest
+            docker image prune -f
+          '
